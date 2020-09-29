@@ -76,10 +76,16 @@ function displayQuestion(index){
         //register clicks on answer buttons
         answerBtn.addEventListener("click", function() {
             console.log("you clicked: ", this.innerHTML);
-            if (this===quiz[0].correct){
-                console.log("good guess!")
+            if (this.innerHTML===quiz[0].correct){// THIS IS WHERE I AM STUCK
+                console.log("good guess!");
+            }
+            else {
+                console.log("try again")
             }
         });
+
+        //mapping the button press to the correct answer
+
         //if correct button is clicked, move on, else deduct 10 seconds and move on
         if (quiz[0].answers[i] === quiz[0].correct){
             answerBtn.setAttribute("data-correct", true);
