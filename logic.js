@@ -21,25 +21,25 @@ var timeLeft = 75;
 var quiz = [
     //quiz questions and potential answers here in this array
     {
-        question: "this is question 1",
-        answers: ["wrong answer", "wrong answer", "right answer", "wrong answer"],
-        correct: "right answer"
+        question: "An array uses which symbol?",
+        answers: ["parenthases ()", "squiggly brackets {}", "brackets []", "double quotes \"\""],
+        correct: "brackets []"
         
     },
     {
-        question: "this is question 2",
-        answers: ["wrong answer", "wrong answer", "right answer", "wrong answer",],
-        correct: "right answer"
+        question: "When would you use an object?",
+        answers: ["To list unrelated items", "to execute a function", "to append an element", "to list related items",],
+        correct: "to list related items"
     },
     {
-        question: "this is question 3",
-        answers: ["wrong answer", "wrong answer", "right answer", "wrong answer"],
-        correct: "right answer"
+        question: "What does DOM stand for?",
+        answers: ["Document Object Model", "Digital Only Media", "Digital Offline Modeling", "Document Object Maker"],
+        correct: "Document Object Model"
     },
     {
-        question: "this is question 4",
-        answers: ["wrong answer", "wrong answer", "right answer", "wrong answer"],
-        correct: "right answer"
+        question: "Javascript is primarily used for...",
+        answers: ["Providing the text for Java", "Adding dynamic functions to a webpage", "Styling HTML", "Spellchecking names on coffee cups"],
+        correct: "Adding dynamic functions to a webpage"
 
     },
 ];
@@ -76,11 +76,16 @@ function displayQuestion(index){
         //register clicks on answer buttons
         answerBtn.addEventListener("click", function() {
             console.log("you clicked: ", this.innerHTML);
-            if (this.innerHTML===quiz[0].correct){// THIS IS WHERE I AM STUCK
+            if (this.innerHTML===quiz[0].correct){
                 console.log("good guess!");
+                question.textContent=quiz[index++].question
+                //buttons need to cycle, too.
+                //question 1 currently requires 2 clicks
             }
             else {
-                console.log("try again")
+                console.log("try again");
+                question.textContent= quiz[index++].question;
+                timeLeft = timeLeft-10;
             }
         });
 
