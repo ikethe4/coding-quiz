@@ -12,6 +12,7 @@ var startButton = document.getElementById("startButton");
 // var answer3 = document.getElementById("answer3");
 // var answer4 = document.getElementById("answer4");
 var allButtons = document.querySelectorAll("button");
+var resultText = document.querySelector(".result");
 
 
 var quizIndex = 0;
@@ -78,14 +79,19 @@ function displayQuestion(index){
             console.log("you clicked: ", this.innerHTML);
             if (this.innerHTML===quiz[0].correct){
                 console.log("good guess!");
-                question.textContent=quiz[index++].question
-                //buttons need to cycle, too.
+                question.textContent=quiz[index++].question;
+                resultText.textContent = "Correct!"
+                //buttons need to clear/cycle
                 //question 1 currently requires 2 clicks
+
             }
             else {
                 console.log("try again");
                 question.textContent= quiz[index++].question;
                 timeLeft = timeLeft-10;
+                resultText.textContent = "Incorrect!"
+
+            
             }
         });
 
