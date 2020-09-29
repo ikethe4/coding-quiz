@@ -5,7 +5,7 @@ var highscore = document.querySelector(".highscore");
 var timer = document.querySelector(".timer");
 var wholeBox = document.querySelector(".container");
 var questionsText = document.querySelector(".question");
-var buttons = document. querySelector("#buttons");
+var buttons = document.querySelector("#buttons");
 var startButton = document.getElementById("startButton");
 // var answer1 = document.getElementById("answer1");
 // var answer2 = document.getElementById("answer2");
@@ -26,7 +26,7 @@ var quiz = [
         question: "An array uses which symbol?",
         answers: ["parenthases ()", "squiggly brackets {}", "brackets []", "double quotes \"\""],
         correct: "brackets []"
-        
+
     },
     {
         question: "When would you use an object?",
@@ -47,111 +47,109 @@ var quiz = [
 ];
 
 
-startButton.addEventListener("click", function (event){
+startButton.addEventListener("click", function (event) {
     startButton.parentNode.removeChild(startButton);
     begin();
 });
 
-function nextQuestion(i){
- i++
-    displayQuestion(i);
+function nextQuestion(quizIndex) {
+    quizIndex++;
+    clearButtons();
+    displayQuestion(quizIndex);
 
 }
 
-// function clearButtons() {
-//     answerBtn.innerHTML = "";
-// };
+function clearButtons() {
+    buttons.innerHTML = "";
+};
 
-function displayQuestion(index){
+function displayQuestion(index) {
     question.textContent = quiz[index].question;
 
-    // if (index >= quiz.length) {
-    //     alert("Test finished.  Endgame here.");
-    //     //display high score and save to local storage
-    // }
-    // else {
-    //     //questionsText.textContent = quiz[index].question; doesn't work
-        question.textContent=quiz[index].question;
+    if (index >= quiz.length) {
+        alert("Test finished.  Endgame here.");
+        //display high score and save to local storage
+    }
+    else {
+        //questionsText.textContent = quiz[index].question; doesn't work
+        question.textContent = quiz[index].question;
 
         // generate buttons
+        for (var i = 0; i < 4; i++) {
 
-        for (var i=0; i < 4; i++){
+            var answerBtn = document.createElement("button");
+            answerBtn.textContent = quiz[index].answers[i];
+            buttons.append(answerBtn);
+            //register clicks on answer buttons
+            answerBtn.addEventListener("click", function () {
+                console.log("you clicked: ", this.innerHTML);
+                if (this.innerHTML === quiz[index].correct) {
+                    console.log("good guess!");
+                    question.textContent = quiz[index].question;
+                    resultText.textContent = "Correct!";
+                    //buttons need to clear/cycle
+                    //question 1 currently requires 2 clicks
+                    nextQuestion(quizIndex);
 
-        var answerBtn = document.createElement("button");
-        answerBtn.textContent = quiz[index].answers[i];
-        buttons.append(answerBtn);
-        //register clicks on answer buttons
-        answerBtn.addEventListener("click", function() {
-            console.log("you clicked: ", this.innerHTML);
-            if (this.innerHTML===quiz[index].correct){
-                console.log("good guess!");
-            //     question.textContent=quiz[index++].question;
-                resultText.textContent = "Correct!";
-            //     //buttons need to clear/cycle
-            //     //question 1 currently requires 2 clicks
-                answerBtn.textContent = ""
-                nextQuestion(index);
+                }
+                else {
+                    console.log("try again");
+                    question.textContent = quiz[index].question;
+                    timeLeft = timeLeft - 10;
+                    resultText.textContent = "Incorrect!"
+                    nextQuestion(quizIndex);
+
+
+                }
+            });
+
+            // nextQuestion();
+
+
+            //mapping the button press to the correct answer
+
+            //if correct button is clicked, move on, else deduct 10 seconds and move on
+            if (quiz[0].answers[i] === quiz[0].correct) {
+                answerBtn.setAttribute("data-correct", true);
+
+
 
             }
-            else {
-            //     console.log("try again");
-                question.textContent= quiz[index++].question;
-                timeLeft = timeLeft-10;
-                resultText.textContent = "Incorrect!"
-                answerBtn.textContent = ""
-                nextQuestion(index);
 
-            
-            }
-        });
-
-        // nextQuestion();
-
-
-        //mapping the button press to the correct answer
-
-        //if correct button is clicked, move on, else deduct 10 seconds and move on
-        // if (quiz[0].answers[i] === quiz[0].correct){
-        //     answerBtn.setAttribute("data-correct", true);
-
-         
-            
-        // }
-        
 
         }
 
-    // }
+    }
 
-// document.body.addEventListener("click", function(event){
-//     var target = event.target
-//     if(target.answerBtn) {
-//         var isCorrect = target.getAttribute("data-correct");
-//         if (isCorrect){
-//             console.log("Yes!")
-//         }
-//     }
-// })
+    // document.body.addEventListener("click", function(event){
+    //     var target = event.target
+    //     if(target.answerBtn) {
+    //         var isCorrect = target.getAttribute("data-correct");
+    //         if (isCorrect){
+    //             console.log("Yes!")
+    //         }
+    //     }
+    // })
 
-    
+
 };
 
 function begin() {
-//     startButton.parentNode.removeChild(startButton);
-//     timer.textcontent = timeLeft; //countdown
-    
-    var countdown = setInterval(function(){ //telling countdown to go down from starting point and stop at zero
+    //     startButton.parentNode.removeChild(startButton);
+    //     timer.textcontent = timeLeft; //countdown
+
+    var countdown = setInterval(function () { //telling countdown to go down from starting point and stop at zero
         timeLeft--;
         timer.textContent = timeLeft;
-        if (timeLeft ==0){
+        if (timeLeft == 0) {
             clearInterval(countdown);
         };
         // //recognition of which button is pressed
 
         //if else statements regarding which button is clicked
-        
+
         //if the ID of the button clicked != .correct, subtract 10 seconds from timer and move to next question in index
-            //else move to next question in index
+        //else move to next question in index
 
     }, 1000);
 };
