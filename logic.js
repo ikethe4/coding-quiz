@@ -5,19 +5,21 @@ var highscore = document.querySelector(".highscore");
 var timer = document.querySelector(".timer");
 var wholeBox = document.querySelector(".container");
 var questionsText = document.querySelector(".question");
-var buttons = document. querySelector("#buttons");
+var buttons = document.querySelector("#buttons");
 var startButton = document.getElementById("startButton");
 // var answer1 = document.getElementById("answer1");
 // var answer2 = document.getElementById("answer2");
 // var answer3 = document.getElementById("answer3");
 // var answer4 = document.getElementById("answer4");
-var allButtons = document.querySelectorAll("button");
+// var allButtons = document.querySelectorAll("button");
 var resultText = document.querySelector(".result");
+
 
 
 
 var quizIndex = 0;
 var timeLeft = 75;
+var quizFinished= false;
 
 //h1 will display the questions
 var quiz = [
@@ -26,7 +28,7 @@ var quiz = [
         question: "An array uses which symbol?",
         answers: ["parenthases ()", "squiggly brackets {}", "brackets []", "double quotes \"\""],
         correct: "brackets []"
-        
+
     },
     {
         question: "When would you use an object?",
@@ -47,14 +49,13 @@ var quiz = [
 ];
 
 
-startButton.addEventListener("click", function (event){
-    startButton.parentNode.removeChild(startButton);
-    begin();
-});
 
-function nextQuestion(i){
- i++
+
+function nextQuestion(i) {
+    i++;
+    buttons.innerHTML = "";
     displayQuestion(i);
+
 
 }
 
@@ -62,46 +63,43 @@ function nextQuestion(i){
 //     answerBtn.innerHTML = "";
 // };
 
-function displayQuestion(index){
+function displayQuestion(index) {
+    // question.textContent = quiz[index].question;
+
+    if (index >= quiz.length) {
+        // alert("Test finished.  Endgame here.");
+        quizFinished = true;
+        //display high score and save to local storage
+    }
+    else {
     question.textContent = quiz[index].question;
 
-    // if (index >= quiz.length) {
-    //     alert("Test finished.  Endgame here.");
-    //     //display high score and save to local storage
-    // }
-    // else {
-    //     //questionsText.textContent = quiz[index].question; doesn't work
-        question.textContent=quiz[index].question;
+    // generate buttons
 
-        // generate buttons
-
-        for (var i=0; i < 4; i++){
+    for (var i = 0; i < 4; i++) {
 
         var answerBtn = document.createElement("button");
         answerBtn.textContent = quiz[index].answers[i];
         buttons.append(answerBtn);
         //register clicks on answer buttons
-        answerBtn.addEventListener("click", function() {
+        answerBtn.addEventListener("click", function () {
             console.log("you clicked: ", this.innerHTML);
-            if (this.innerHTML===quiz[index].correct){
+            if (this.innerHTML === quiz[index].correct) {
                 console.log("good guess!");
-            //     question.textContent=quiz[index++].question;
+                //     question.textContent=quiz[index++].question;
                 resultText.textContent = "Correct!";
-            //     //buttons need to clear/cycle
-            //     //question 1 currently requires 2 clicks
-                answerBtn.textContent = ""
+
                 nextQuestion(index);
 
             }
             else {
-            //     console.log("try again");
-                question.textContent= quiz[index++].question;
-                timeLeft = timeLeft-10;
+                //     console.log("try again");
+                question.textContent = quiz[index].question;
+                timeLeft = timeLeft - 10;
                 resultText.textContent = "Incorrect!"
-                answerBtn.textContent = ""
                 nextQuestion(index);
 
-            
+
             }
         });
 
@@ -114,44 +112,62 @@ function displayQuestion(index){
         // if (quiz[0].answers[i] === quiz[0].correct){
         //     answerBtn.setAttribute("data-correct", true);
 
-         
-            
-        // }
-        
 
-        }
+
+        // }
+        // endgame()
+
+    }
 
     // }
 
-// document.body.addEventListener("click", function(event){
-//     var target = event.target
-//     if(target.answerBtn) {
-//         var isCorrect = target.getAttribute("data-correct");
-//         if (isCorrect){
-//             console.log("Yes!")
-//         }
-//     }
-// })
+    // document.body.addEventListener("click", function(event){
+    //     var target = event.target
+    //     if(target.answerBtn) {
+    //         var isCorrect = target.getAttribute("data-correct");
+    //         if (isCorrect){
+    //             console.log("Yes!")
+    //         }
+    //     }
+    // })
 
-    
-};
+
+}};
+
+function endgame() {
+    question.textContent = "Congratulations! Your score is " + timeLeft;
+    var initials = prompt("Congratulations!  Your score is " + timeLeft + "! Please enter your initials.");
+    console.log(initials);
+    var scoreName = initials + " " + timeLeft;
+    highscore.textContent = scoreName;
+    window.localStorage.setItem(scoreName);
+
+    // if (initials = true) {
+    // highscore.textContent = initials + timeLeft;
+    // };
+  
+}
 
 function begin() {
-//     startButton.parentNode.removeChild(startButton);
-//     timer.textcontent = timeLeft; //countdown
-    
-    var countdown = setInterval(function(){ //telling countdown to go down from starting point and stop at zero
+    //     startButton.parentNode.removeChild(startButton);
+    //     timer.textcontent = timeLeft; //countdown
+    displayQuestion(quizIndex);
+    var countdown = setInterval(function () { //telling countdown to go down from starting point and stop at zero
         timeLeft--;
         timer.textContent = timeLeft;
-        if (timeLeft ==0){
+        if (timeLeft <= 0) {
             clearInterval(countdown);
-        };
+        }
+        else if (quizFinished) {
+            clearInterval(countdown);
+            endgame();
+        }
         // //recognition of which button is pressed
 
         //if else statements regarding which button is clicked
-        
+
         //if the ID of the button clicked != .correct, subtract 10 seconds from timer and move to next question in index
-            //else move to next question in index
+        //else move to next question in index
 
     }, 1000);
 };
@@ -163,7 +179,14 @@ function begin() {
 //     startButton.parentNode.removeChild(startButton);
 //     timer.textcontent = timeLeft;
 // });
-displayQuestion(quizIndex);
+// displayQuestion(quizIndex);
+
+// endgame();
+
+startButton.addEventListener("click", function (event) {
+    startButton.parentNode.removeChild(startButton);
+    begin();
+});
 
 
 

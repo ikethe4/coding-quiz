@@ -4,25 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coding Quiz</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
 </head>
 <body> 
     <!-- heading above the container -->
     <div class="header">
-        <div class="highscore"></div>
         <div>
-            <p class="timer">placeholder</p>
+            <p class="highscore"></p>
+        </div>
+        <div>
+            <p class="timer">Time Left</p>
         </div>
     </div>
 
     <div class="container">
         <h1 id="question"></h1>
-        <button id="startButton">Start Here</button>
+        <button id="startButton" class="btn btn-primary">Start Here</button>
         <div id="buttons">
             <!-- <button class= "button-1" id="answer1">test1</button>
             <button class= "button-2" id="answer2">test2</button>
             <button class= "button-3" id="answer3">test3</button>
             <button class= "button-4" id="answer4">test4</button> -->
+
 
         </div>
         <div class="result"></div>
